@@ -1,2 +1,3 @@
-public interface AccInterface {
+public interface AccInterface
+{
 }
