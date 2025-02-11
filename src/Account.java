@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.Scanner;
 
 public class Account implements AccInterface
@@ -27,6 +28,35 @@ public class Account implements AccInterface
         return UserName;
     }
 
+    public long getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(long userID) {
+        UserID = userID;
+    }
+
+    public String getPassword()
+    {
+        try
+        {
+            FileReader filereader = new FileReader("C:\\Users\\User\\Documents\\Password.txt");
+            BufferedReader bufferedReader = new BufferedReader(filereader);
+            String line = bufferedReader.readLine();
+            if(line.isEmpty())
+            {
+                throw new InvalidPasswordE("Password not found");
+            }
+            bufferedReader.close();
+            return line;
+        }
+        catch (IOException | InvalidPasswordE e)
+        {
+            System.out.println(e.getMessage());
+            return "";
+        }
+    }
+
     public void setUserName(String userName)
     {
         Scanner scanner = new Scanner(System.in);
@@ -43,27 +73,19 @@ public class Account implements AccInterface
                 else
                 {
                     UserName = userName;
-                    System.out.println("Username set: " + getUserName());
+                    FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\User\\Documents\\Username.txt");
+                    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+                    bufferedOutputStream.write(userName.getBytes());
+                    bufferedOutputStream.close();
+                    System.out.println("Username set: " + userName);
                     break;
                 }
             }
-            catch (InvalidUsernameE m)
+            catch (InvalidUsernameE | IOException m)
             {
                 System.out.println(m.getMessage());
             }
         }
-    }
-
-    public long getUserID() {
-        return UserID;
-    }
-
-    public void setUserID(long userID) {
-        UserID = userID;
-    }
-
-    public String getPassword() {
-        return Password;
     }
 
     public void setPassword(String password)
@@ -79,14 +101,23 @@ public class Account implements AccInterface
                 {
                     throw new InvalidPasswordE("Password cant be blank, Start Over");
                 }
+                else if(password.length() < 8)
+                {
+                    throw new InvalidPasswordE("Password must be or over 8 characters");
+                }
                 else
                 {
                     Password = password;
+                    FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\User\\Documents\\Password.txt");
+                    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
+                    getPassword();
+                    bufferedOutputStream.write(password.getBytes());
+                    bufferedOutputStream.close();
                     System.out.println("Password set: " + getPassword());
                     break;
                 }
             }
-            catch (InvalidPasswordE m)
+            catch (InvalidPasswordE | IOException m)
             {
                 System.out.println(m.getMessage());
             }
