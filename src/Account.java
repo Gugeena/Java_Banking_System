@@ -8,6 +8,20 @@ public class Account implements AccInterface
     private long UserID = 0;
     private String Password;
 
+    public void CheckIn()
+    {
+        Scanner scn = new Scanner(System.in);
+        System.out.println("Login or SignUp");
+        String line = scn.nextLine();
+        if(line.equals("Login"))
+        {
+            
+        }
+        if(line.equals("Sing up"))
+        {
+            AccountCreation();
+        }
+    }
     public void AccountCreation()
     {
        setUserName("");
