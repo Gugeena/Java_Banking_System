@@ -15,13 +15,38 @@ public class Account implements AccInterface
         String line = scn.nextLine();
         if(line.equals("Login"))
         {
-            
+            LogIn();
         }
-        if(line.equals("Sing up"))
+        if(line.equals("SignUp"))
         {
             AccountCreation();
         }
     }
+
+    public void LogIn()
+    {
+        try
+        {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter your Username:");
+            String line = scanner.nextLine();
+            System.out.println("Enter your Password:");
+            String line1 = scanner.nextLine();
+            if (line.equals(getUserName()) && line1.equals(getPassword()))
+            {
+                System.out.println("LoginSuccesfull");
+            }
+            else
+            {
+                throw new InvalidUserE("User not found, try again");
+            }
+        }
+        catch (InvalidUserE e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void AccountCreation()
     {
        setUserName("");
@@ -39,7 +64,23 @@ public class Account implements AccInterface
 
     public String getUserName()
     {
-        return UserName;
+        try
+        {
+            FileReader filereader = new FileReader("C:\\Users\\User\\Documents\\Username.txt");
+            BufferedReader bufferedReader = new BufferedReader(filereader);
+            String line = bufferedReader.readLine();
+            if(line.isEmpty())
+            {
+                throw new InvalidPasswordE("Username not found");
+            }
+            bufferedReader.close();
+            return line;
+        }
+        catch (IOException | InvalidPasswordE e)
+        {
+            System.out.println(e.getMessage());
+            return "";
+        }
     }
 
     public long getUserID() {
@@ -124,7 +165,6 @@ public class Account implements AccInterface
                     Password = password;
                     FileOutputStream fileOutputStream = new FileOutputStream("C:\\Users\\User\\Documents\\Password.txt");
                     BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(fileOutputStream);
-                    getPassword();
                     bufferedOutputStream.write(password.getBytes());
                     bufferedOutputStream.close();
                     System.out.println("Password set: " + getPassword());
