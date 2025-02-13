@@ -134,6 +134,7 @@ public class Account implements AccInterface
                     bufferedOutputStream.close();
                     System.out.println("Username set: " + userName);
                     break;
+                    //HERE
                 }
             }
             catch (InvalidUsernameE | IOException m)
