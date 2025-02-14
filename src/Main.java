@@ -4,5 +4,6 @@ public class Main
     {
         Account account = new Account();
         account.CheckIn();
+        account.LogIn();
     }
 }
